@@ -1,340 +1,160 @@
-// import express from "express";
-// import cors from "cors";
-// import "dotenv/config";
-// import { MongoClient, ServerApiVersion } from "mongodb";
-// const app = express();
-// const port = process.env.PORT || 3000; // Use || instead of |
-// //console.log(process.env.DB_PASSWORD);
-// //middle ware
-// app.use(express.json());
-// app.use(cors());
-
-// //user:bollikondapranay8
-// //password:rMK7hT4FKRQgOs1a
-
-// //const { MongoClient, ServerApiVersion } = require("mongodb");
-// const uri = `mongodb+srv://${process.env.DBUSER}:${process.env.DB_PASSWORD}@job-portal-demo.wccfmep.mongodb.net/?retryWrites=true&w=majority&appName=job-portal-demo`;
-
-// // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-// const client = new MongoClient(uri, {
-//   serverApi: {
-//     version: ServerApiVersion.v1,
-//     strict: true,
-//     deprecationErrors: true,
-//   },
-// });
-
-// async function run() {
-//   try {
-//     // Connect the client to the server	(optional starting in v4.7)
-//     await client.connect();
-
-//     //create Database
-//     const db = client.db("mernJobPortal");
-//     const jobsCollections = db.collection("demoJobs");
-
-//     // //posting a job
-
-//     // app.post("/post-job", async (req, res) => {
-//     //   const body = req.body;
-//     //   body.createAt = new Date();
-//     //   // console.log(body);
-//     //   const result = await jobsCollections.insertOne(body);
-//     //   if (result.insertedId) {
-//     //     return res.status(200).send(result);
-//     //   } else {
-//     //     return res.status(404).send({
-//     //       message: "cannot insert! try again",
-//     //       status: false,
-//     //     });
-//     //   }
-//     // });
-
-//     // // get all jobs
-
-//     // app.get("/all-jobs", async (req, res) => {
-//     //   const jobs = await jobsCollections.find({}).toArray();
-//     //   res.send(jobs);
-//     // });
-
-//     // Send a ping to confirm a successful connection
-//     await client.db("admin").command({ ping: 1 });
-//     console.log(
-//       "Pinged your deployment. You successfully connected to MongoDB!"
-//     );
-//   } finally {
-//     // Ensures that the client will close when you finish/error
-//     await client.close();
-//   }
-// }
-// run().catch(console.dir);
-
-// app.post("/post-job", async (req, res) => {
-//   const body = req.body;
-//   body.createAt = new Date();
-//   // console.log(body);
-//   try {
-//     const result = await jobsCollections.insertOne(body);
-//     if (result.insertedId) {
-//       return res.status(200).send(result);
-//     } else {
-//       return res.status(404).send({
-//         message: "Cannot insert! Try again",
-//         status: false,
-//       });
-//     }
-//   } catch (error) {
-//     console.error("Error inserting job:", error);
-//     res.status(500).send({
-//       message: "Internal server error",
-//       status: false,
-//     });
-//   }
-// });
-
-// app.get("/all-jobs", async (req, res) => {
-//   try {
-//     const jobs = await jobsCollections.find({}).toArray();
-//     res.send(jobs);
-//   } catch (error) {
-//     console.error("Error fetching jobs:", error);
-//     res.status(500).send({
-//       message: "Internal server error",
-//       status: false,
-//     });
-//   }
-// });
-
-// app.get("/", (req, res) => {
-//   res.send("Hello FUcknm");
-// });
-
-// app.listen(port, () => {
-//   console.log(`Successfully running on port ${port}`);
-// });
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// import express from "express";
-// import cors from "cors";
-// import "dotenv/config";
-// import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
-
-// const app = express();
-// const port = process.env.PORT || 3000;
-
-// // Middleware
-// app.use(express.json());
-// app.use(cors());
-
-// // MongoDB connection URI
-// const uri = `mongodb+srv://${process.env.DBUSER}:${process.env.DB_PASSWORD}@job-portal-demo.wccfmep.mongodb.net/?retryWrites=true&w=majority&appName=job-portal-demo`;
-
-// // Create a MongoClient with a MongoClientOptions object to set the Stable API version
-// const client = new MongoClient(uri, {
-//   serverApi: {
-//     version: ServerApiVersion.v1,
-//     strict: true,
-//     deprecationErrors: true,
-//   },
-// });
-
-// let jobsCollections;
-
-// // Connect to MongoDB and setup collections
-// async function connectToMongoDB() {
-//   try {
-//     await client.connect();
-//     const db = client.db("mernJobPortal");
-//     jobsCollections = db.collection("demoJobs");
-
-//     // Send a ping to confirm a successful connection
-//     await client.db("admin").command({ ping: 1 });
-//     console.log(
-//       "Pinged your deployment. You successfully connected to MongoDB!"
-//     );
-//   } catch (error) {
-//     console.error("Error connecting to MongoDB", error);
-//     process.exit(1); // Exit the process with an error
-//   }
-// }
-
-// connectToMongoDB().catch(console.dir);
-
-// // Define routes
-// app.post("/post-job", async (req, res) => {
-//   const body = req.body;
-//   body.createAt = new Date();
-//   try {
-//     const result = await jobsCollections.insertOne(body);
-//     if (result.insertedId) {
-//       return res.status(200).send(result);
-//     } else {
-//       return res.status(404).send({
-//         message: "Cannot insert! Try again",
-//         status: false,
-//       });
-//     }
-//   } catch (error) {
-//     console.error("Error inserting job:", error);
-//     res.status(500).send({
-//       message: "Internal server error",
-//       status: false,
-//     });
-//   }
-// });
-
-// app.get("/all-jobs", async (req, res) => {
-//   try {
-//     const jobs = await jobsCollections.find({}).toArray();
-//     res.send(jobs);
-//   } catch (error) {
-//     console.error("Error fetching jobs:", error);
-//     res.status(500).send({
-//       message: "Internal server error",
-//       status: false,
-//     });
-//   }
-// });
-
-// ///get a job by single id
-// app.get("/all-jobs/:id", async (req, res) => {
-//   const id = req.params.id;
-//   try {
-//     const job = await jobsCollections.findOne({
-//       _id: new ObjectId(id),
-//     });
-//     if (!job) {
-//       return res.status(404).send({ message: "Job not found" });
-//     }
-//     res.send(job);
-//   } catch (error) {
-//     console.error("Error fetching job:", error);
-//     res.status(500).send({ message: "Internal server error" });
-//   }
-// });
-
-// ///UPDATE A JOB
-// app.patch("/update-job/:id", async (req, res) => {
-//   const id = req.params.id;
-//   const jobData = req.body;
-//   const filter = { _id: new ObjectId(id) };
-//   const options = { upsert: true }; // Fixed typo from upset to upsert
-//   const updateDoc = {
-//     $set: {
-//       ...jobData,
-//     },
-//   };
-//   try {
-//     const result = await jobsCollections.updateOne(filter, updateDoc, options);
-//     res.send(result);
-//   } catch (error) {
-//     console.error("Error updating job:", error);
-//     res.status(500).send({
-//       message: "Internal server error",
-//       status: false,
-//     });
-//   }
-// });
-
-// ////get jobs by email
-// app.get("/myJobs/:email", async (req, res) => {
-//   try {
-//     if (!jobsCollections) {
-//       throw new Error("jobsCollections is not initialized");
-//     }
-//     const jobs = await jobsCollections
-//       .find({ postedBy: req.params.email })
-//       .toArray();
-//     res.send(jobs);
-//   } catch (error) {
-//     console.error("Error fetching jobs by email:", error);
-//     res.status(500).send({
-//       message: "Internal server error",
-//       status: false,
-//     });
-//   }
-// });
-
-// ////Delete A job
-// app.delete("/job/:id", async (req, res) => {
-//   const id = req.params.id;
-//   try {
-//     const filter = { _id: new ObjectId(id) };
-//     const result = await jobsCollections.deleteOne(filter);
-//     if (result.deletedCount === 0) {
-//       return res.status(404).send({ message: "Job not found" });
-//     }
-//     res.status(200).send({ message: "Job deleted successfully" });
-//   } catch (error) {
-//     console.error("Error deleting job:", error);
-//     res.status(500).send({ message: "Internal server error" });
-//   }
-// });
-
-// // Root route
-// app.get("/", (req, res) => {
-//   res.send("Hello, World!");
-// });
-
-// app.listen(port, () => {
-//   console.log(`Successfully running on port ${port}`);
-// });
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 import express from "express";
+// import cors from "cors";
 import cors from "cors";
 import "dotenv/config";
-import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
+import pg from "pg";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // replace with the exact origin of your frontend
+    credentials: true, // allow credentials (cookies, HTTP authentication)
+  })
+);
 
-// MongoDB connection URI
-const uri = `mongodb+srv://${process.env.DBUSER}:${process.env.DB_PASSWORD}@job-portal-demo.wccfmep.mongodb.net/?retryWrites=true&w=majority&appName=job-portal-demo`;
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
+// PostgreSQL connection
+const pool = new pg.Pool({
+  user: process.env.DBUSER,
+  host: process.env.DBHOST,
+  database: process.env.DBNAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DBPORT,
 });
 
-let jobsCollections;
-
-// Connect to MongoDB and setup collections
-async function connectToMongoDB() {
+// Connect to PostgreSQL
+async function connectToPostgres() {
   try {
-    await client.connect();
-    const db = client.db("mernJobPortal");
-    jobsCollections = db.collection("demoJobs");
-
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    await pool.connect();
+    console.log("Successfully connected to PostgreSQL!");
   } catch (error) {
-    console.error("Error connecting to MongoDB", error);
-    process.exit(1); // Exit the process with an error
+    console.error("Error connecting to PostgreSQL", error);
+    process.exit(1);
   }
 }
 
-connectToMongoDB().catch(console.dir);
+connectToPostgres().catch(console.dir);
+
+(async () => {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      email VARCHAR(255) UNIQUE NOT NULL,
+      password VARCHAR(255) NOT NULL
+    );
+  `);
+})();
+
+const JWT_SECRET = "your_secret_key";
+
+app.post("/signup", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if email already exists
+    const existingUser = await pool.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email]
+    );
+
+    if (existingUser.rows.length > 0) {
+      return res.status(400).json({ message: "Email already exists." });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Insert new user
+    await pool.query("INSERT INTO users (email, password) VALUES ($1, $2)", [
+      email,
+      hashedPassword,
+    ]);
+
+    res.status(201).json({ message: "User registered successfully!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error." });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if the user exists
+    const user = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
+
+    if (user.rows.length === 0) {
+      return res.status(400).json({ message: "Invalid email or password." });
+    }
+
+    // Compare passwords
+    const isMatch = await bcrypt.compare(password, user.rows[0].password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid email or password." });
+    }
+
+    res.status(200).json({ message: "Login successful!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error." });
+  }
+});
+
 
 // Define routes
 app.post("/post-job", async (req, res) => {
-  const body = req.body;
-  body.createAt = new Date();
-  // console.log(body);
+  const {
+    jobTitle,
+    companyName,
+    minPrice,
+    maxPrice,
+    salaryType,
+    jobLocation,
+    postingDate,
+    experienceLevel,
+    companyLogo,
+    employmentType,
+    description,
+    postedBy,
+    skills,
+  } = req.body;
+
   try {
-    const result = await jobsCollections.insertOne(body);
-    if (result.insertedId) {
-      return res.status(200).send(result);
+    const result = await pool.query(
+      `INSERT INTO jobs ("jobTitle", "companyName", "minPrice", "maxPrice", "salaryType", 
+    "jobLocation", "postingDate", "experienceLevel", "companyLogo", "employmentType", 
+    "description", "postedBy", "skills") 
+   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
+   RETURNING id`,
+      [
+        jobTitle,
+        companyName,
+        minPrice,
+        maxPrice,
+        salaryType,
+        jobLocation,
+        postingDate,
+        experienceLevel,
+        companyLogo,
+        employmentType,
+        description,
+        postedBy,
+        JSON.stringify(skills),
+      ]
+    );
+
+    if (result.rows[0].id) {
+      return res.status(200).send(result.rows[0]);
     } else {
       return res.status(404).send({
         message: "Cannot insert! Try again",
@@ -349,11 +169,11 @@ app.post("/post-job", async (req, res) => {
     });
   }
 });
-/// Route to get all jobs
+
 app.get("/all-jobs", async (req, res) => {
   try {
-    const jobs = await jobsCollections.find({}).toArray();
-    res.send(jobs);
+    const result = await pool.query("SELECT * FROM jobs");
+    res.send(result.rows);
   } catch (error) {
     console.error("Error fetching jobs:", error);
     res.status(500).send({
@@ -363,51 +183,135 @@ app.get("/all-jobs", async (req, res) => {
   }
 });
 
-///get a job by single id
 app.get("/all-jobs/:id", async (req, res) => {
   const id = req.params.id;
-  const job = await jobsCollections.findOne({
-    _id: new ObjectId(id),
-  });
-  res.send(job);
+  console.log(req.params);
+  try {
+    const result = await pool.query("SELECT * FROM jobs WHERE id = $1", [id]);
+    if (result.rows.length > 0) {
+      res.send(result.rows[0]);
+    } else {
+      res.status(404).send({
+        message: "Job not found",
+        status: false,
+      });
+    }
+  } catch (error) {
+    console.error("Error fetching job:", error);
+    res.status(500).send({
+      message: "Internal server error",
+      status: false,
+    });
+  }
 });
 
-///UPDATE A JOB
-app.patch("/update-job/:id", async (req, res) => {
-  const id = req.params.id;
-  const jobData = req.body;
-  const filter = { _id: new ObjectId(id) };
-  const options = { upset: true };
-  const updateDoc = {
-    $set: {
-      ...jobData,
-    },
-  };
-  const result = await jobsCollections.updateOne(filter, updateDoc, options);
-  res.send(result);
-});
+// app.patch("/update-job/:id", async (req, res) => {
+//   const id = req.params.id;
+//   const jobData = req.body;
 
-////get jobs by email
+//   const setClause = Object.keys(jobData)
+//     .map((key, index) => `${key} = $${index + 1}`)
+//     .join(", ");
+//   const values = Object.values(jobData);
 
-// app.get("/myJobs/:email", async (req, res) => {
-//   //console.log(req.params.email);
-//   const jobs = await jobsCollections
-//     .find({ postedBy: req.params.email })
-//     .toArray();
-//   res.send(jobs);
+//   try {
+//     const result = await pool.query(
+//       `UPDATE jobs SET ${setClause} WHERE id = $${
+//         values.length + 1
+//       } RETURNING *`,
+//       [...values, id]
+//     );
+
+//     if (result.rows.length > 0) {
+//       res.send(result.rows[0]);
+//     } else {
+//       res.status(404).send({
+//         message: "Job not found",
+//         status: false,
+//       });
+//     }
+//   } catch (error) {
+//     console.error("Error updating job:", error);
+//     res.status(500).send({
+//       message: "Internal server error",
+//       status: false,
+//     });
+//   }
 // });
+app.patch("/update-job/:id", async (req, res) => {
+  const { id } = req.params;
+  const {
+    jobTitle,
+    companyName,
+    minPrice,
+    maxPrice,
+    salaryType,
+    jobLocation,
+    postingDate,
+    experienceLevel,
+    companyLogo,
+    employmentType,
+    description,
+    postedBy,
+    skills,
+  } = req.body;
+
+  try {
+    // Ensure skills is properly formatted for JSON in PostgreSQL
+    const parsedSkills = JSON.stringify(skills);
+
+    const result = await pool.query(
+      `UPDATE jobs SET 
+        "jobTitle" = $1,
+        "companyName" = $2,
+        "minPrice" = $3,
+        "maxPrice" = $4,
+        "salaryType" = $5,
+        "jobLocation" = $6,
+        "postingDate" = $7,
+        "experienceLevel" = $8,
+        "companyLogo" = $9,
+        "employmentType" = $10,
+        description = $11,
+        "postedBy" = $12,
+        skills = $13
+      WHERE id = $14 RETURNING *`,
+      [
+        jobTitle,
+        companyName,
+        minPrice,
+        maxPrice,
+        salaryType,
+        jobLocation,
+        postingDate,
+        experienceLevel,
+        companyLogo,
+        employmentType,
+        description,
+        postedBy,
+        parsedSkills, // Use the JSON-stringified skills here
+        id,
+      ]
+    );
+
+    if (result.rows.length > 0) {
+      res.json({ acknowledged: true, result: result.rows[0] });
+    } else {
+      res.status(404).json({ message: "Job not found", status: false });
+    }
+  } catch (error) {
+    console.error("Error updating job:", error);
+    res.status(500).json({ message: "Internal server error", status: false });
+  }
+});
 
 app.get("/myJobs/:email", async (req, res) => {
-  // console.log(req.params.email);
   try {
-    if (!jobsCollections) {
-      throw new Error("jobsCollections is not initialized");
-    }
-    //console.log(req.params.email);
-    const jobs = await jobsCollections
-      .find({ postedBy: req.params.email })
-      .toArray();
-    res.send(jobs);
+    const result = await pool.query(
+      'SELECT * FROM jobs WHERE "postedBy" = $1',
+      [req.params.email]
+    );
+    res.send(result.rows);
   } catch (error) {
     console.error("Error fetching jobs by email:", error);
     res.status(500).send({
@@ -417,12 +321,28 @@ app.get("/myJobs/:email", async (req, res) => {
   }
 });
 
-////Delete A job
 app.delete("/job/:id", async (req, res) => {
   const id = req.params.id;
-  const filter = { _id: new ObjectId(id) };
-  const result = await jobsCollections.deleteOne(filter);
-  res.send(result);
+  try {
+    const result = await pool.query(
+      "DELETE FROM jobs WHERE id = $1 RETURNING *",
+      [id]
+    );
+    if (result.rows.length > 0) {
+      res.send(result.rows[0]);
+    } else {
+      res.status(404).send({
+        message: "Job not found",
+        status: false,
+      });
+    }
+  } catch (error) {
+    console.error("Error deleting job:", error);
+    res.status(500).send({
+      message: "Internal server error",
+      status: false,
+    });
+  }
 });
 
 app.get("/", (req, res) => {
@@ -432,99 +352,3 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Successfully running on port ${port}`);
 });
-
-// import express from "express";
-// import cors from "cors";
-// import "dotenv/config";
-// import pg from "pg";
-
-// const app = express();
-// const port = process.env.PORT || 3000;
-
-// // Middleware
-// app.use(express.json());
-// app.use(cors());
-
-// // PostgreSQL connection setup
-// const { Pool } = pg;
-
-// const pool = new Pool({
-//   user: process.env.DBUSER,
-//   host: process.env.DBHOST,
-//   database: process.env.DBNAME,
-//   password: process.env.DBPASSWORD,
-//   port: process.env.DBPORT || 5432,
-// });
-
-// console.log("Database Password:", process.env.DBPASSWORD); // Debug log
-
-// // Connect to PostgreSQL
-// async function connectToPostgreSQL() {
-//   try {
-//     await pool.query("SELECT NOW()"); // Simple query to check connection
-//     console.log("Connected to PostgreSQL successfully!");
-
-//     // Define routes
-//     app.post("/post-job", async (req, res) => {
-//       const body = req.body;
-//       body.createAt = new Date();
-//       const query = `
-//         INSERT INTO demoJobs (jobTitle, companyName, minPrice, maxPrice, salaryType, jobLocation, postingDate, experienceLevel, skills, companyLogo, employmentType, description, postedBy, createAt)
-//         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
-//         RETURNING *;
-//       `;
-//       const values = [
-//         body.jobTitle,
-//         body.companyName,
-//         body.minPrice,
-//         body.maxPrice,
-//         body.salaryType,
-//         body.jobLocation,
-//         body.postingDate,
-//         body.experienceLevel,
-//         JSON.stringify(body.skills),
-//         body.companyLogo,
-//         body.employmentType,
-//         body.description,
-//         body.postedBy,
-//         body.createAt,
-//       ];
-//       try {
-//         const result = await pool.query(query, values);
-//         res.status(200).send(result.rows[0]);
-//       } catch (error) {
-//         console.error("Error inserting job:", error);
-//         res.status(500).send({
-//           message: "Internal server error",
-//           status: false,
-//         });
-//       }
-//     });
-
-//     app.get("/all-jobs", async (req, res) => {
-//       try {
-//         const result = await pool.query("SELECT * FROM demoJobs");
-//         res.send(result.rows);
-//       } catch (error) {
-//         console.error("Error fetching jobs:", error);
-//         res.status(500).send({
-//           message: "Internal server error",
-//           status: false,
-//         });
-//       }
-//     });
-
-//     app.get("/", (req, res) => {
-//       res.send("Hello, World!");
-//     });
-
-//     app.listen(port, () => {
-//       console.log(`Successfully running on port ${port}`);
-//     });
-//   } catch (error) {
-//     console.error("Error connecting to PostgreSQL", error);
-//     process.exit(1); // Exit the process with an error
-//   }
-// }
-
-// connectToPostgreSQL();
