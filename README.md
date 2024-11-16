@@ -13,9 +13,9 @@ Apply filters such as location, salary, experience level, and employment type fo
 Job Listings:
 
 Display job details like title, company name, location, salary, and posting date.
-MongoDB Database:
+PostgreSQL Database:
 
-MongoDB is used as the backend database to store and manage job-related data efficiently.
+PostgreSQL is used as the backend database to store and manage job-related data efficiently.
 Tech Stack
 Frontend: HTML, CSS, React.js for creating a responsive user interface.
 Backend: Node.js with Express.js for handling server-side logic.
